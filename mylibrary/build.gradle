@@ -1,7 +1,9 @@
+
 plugins {
     id 'com.android.library'
+    id 'kotlin-android'
     id 'maven-publish'
-    id 'signing'
+
 }
 
 // 这个是把源码打入aar包中的任务
@@ -37,42 +39,60 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation gradleApi()
-    implementation localGroovy()
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation gradleApi()
+//    implementation localGroovy()
+//    implementation 'androidx.appcompat:appcompat:1.4.1'
+    api "com.google.maoaj.store:1.0.3"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
 }
-
 afterEvaluate {
     publishing {
         publications {
-            // 这里的debug名字是自己起的
+            // Creates a Maven publication called "release".
             release(MavenPublication) {
-                groupId = 'com.github.store'
-                artifactId = 'mylibrary'
-                version = "1.0.3"
-                // 这里除了有debug 还有release
-//                from components.release
-                // 运行任务，把源码打进去
-                artifact sourceJar
+                from components.release
+                groupId = 'com.github.maodoumao'
+                artifactId = 'store'
+                version = '1.0'
             }
-        }
-        // 添加仓库地址
-        repositories {
-            // 本地仓库
-            mavenLocal()
-            maven {
-//            // change to point to your repo, e.g. http://my.org/repo
-            url = layout.buildDirectory.dir('repo')
-        }
-            // 当上传到远端仓库
-//            maven {
-//                url("")
-//                credentials {
-//                    username = ""
-//                    password = ""
-//                }
-//          }
         }
     }
 }
+
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            // 这里的debug名字是自己起的
+//            release(MavenPublication) {
+//                groupId = 'com.github.store'
+//                artifactId = 'mylibrary'
+//                version = "1.0.3"
+//                // 这里除了有debug 还有release
+////                from components.release
+//                // 运行任务，把源码打进去
+//                artifact sourceJar
+//            }
+//        }
+//        // 添加仓库地址
+//        repositories {
+//            // 本地仓库
+//            mavenLocal()
+//            maven {
+////            // change to point to your repo, e.g. http://my.org/repo
+//            url = layout.buildDirectory.dir('repo')
+//        }
+//            // 当上传到远端仓库
+////            maven {
+////                url("")
+////                credentials {
+////                    username = ""
+////                    password = ""
+////                }
+////          }
+//        }
+//    }
+//}
