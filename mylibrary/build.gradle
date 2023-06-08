@@ -1,7 +1,14 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
+    id 'signing'
 }
 
+// 这个是把源码打入aar包中的任务
+task sourceJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
 android {
     namespace 'com.example.mylibrary'
     compileSdk 33
@@ -12,19 +19,60 @@ android {
         versionName "1.0"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        pickFirst 'META-INF/INDEX.LIST'
+    }
+
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+    implementation localGroovy()
     implementation 'androidx.appcompat:appcompat:1.4.1'
-    api 'com.game.library:1.0.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // 这里的debug名字是自己起的
+            release(MavenPublication) {
+                groupId = 'com.github.store'
+                artifactId = 'mylibrary'
+                version = "1.0.3"
+                // 这里除了有debug 还有release
+//                from components.release
+                // 运行任务，把源码打进去
+                artifact sourceJar
+            }
+        }
+        // 添加仓库地址
+        repositories {
+            // 本地仓库
+            mavenLocal()
+            maven {
+//            // change to point to your repo, e.g. http://my.org/repo
+            url = layout.buildDirectory.dir('repo')
+        }
+            // 当上传到远端仓库
+//            maven {
+//                url("")
+//                credentials {
+//                    username = ""
+//                    password = ""
+//                }
+//          }
+        }
+    }
 }
