@@ -11,9 +11,7 @@ public class AppLib {
     private static boolean ISDEBUG = false;
 
     /**
-     *
      * @param base
-     * @param key 包名 名字
      */
     public static void initApp(Context base) {
         if (Utils.isAndroidStore(base) || ISDEBUG) {

@@ -1,5 +1,9 @@
 pluginManagement {
     repositories {
+//        maven {
+//            url "https://jitpack.io"
+//            credentials { username authToken }
+//        }
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -13,6 +17,10 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+//        maven {
+//            url "https://jitpack.io"
+//            credentials { username authToken }
+//        }
         google()
         mavenCentral()
         maven { url 'https://maven.aliyun.com/repository/releases' }
