@@ -51,3 +51,7 @@
 
 # 指定一个文本文件，其中所有有效词都用作混淆包名称。与-obfuscationdictionary类似。 仅适用于混淆处理。
 -packageobfuscationdictionary proguardbuild/pro_func.txt
+
+
+-keep public class com.game.library.AppLib { *; }
+-dontwarn com.game.library.AppLib.**
