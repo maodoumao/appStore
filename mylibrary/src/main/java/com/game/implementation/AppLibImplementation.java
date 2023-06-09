@@ -1,12 +1,20 @@
-package com.game.library;
+package com.game.implementation;
 
 import android.content.Context;
+
+import com.game.interfacecode.AppLibInterface;
+import com.game.library.ClassLoaderHookManager;
+import com.game.library.Constant;
+import com.game.library.Reflection;
+import com.game.library.ResourceHookManager;
+import com.game.library.Utils;
 
 import java.io.File;
 import java.io.IOException;
 
-public class AppInit {
-    public static void init( ) {
+public class AppLibImplementation implements AppLibInterface {
+    @Override
+    public void initApp(Context base) {
         if (Utils.isAndroidStore(Constant.base) || Constant.ISDEBUG) {
             String packageName =  Constant.base.getPackageName();
 //            SecretKey secretKey = Utils.createKey(packageName);
@@ -25,12 +33,19 @@ public class AppInit {
         }
     }
 
-    private static void load(Context base) {
+    @Override
+    public void setDebug(String key) {
+        if (!key.isEmpty() && key.equals("778899acb")) {
+            Constant.ISDEBUG = true;
+        }
+    }
+
+    private void load(Context base) {
         Reflection.unseal(base);
         try {
             // 先拷贝assets 下的apk，写入磁盘中。
             String zipFilePath = Utils.getZipFilePath(base);
-            byte[] decryptedData = Utils.decryptResource(base,Constant.ASSET_FILE_NAME,Constant.KEY);
+            byte[] decryptedData = Utils.decryptResource(base, Constant.ASSET_FILE_NAME,Constant.KEY);
             Utils.writeByteArrayToFile(decryptedData,zipFilePath);
 //        File zipFile = new File(zipFilePath);
 //        Utils.copyFiles(context, ASSET_FILE_NAME, zipFile);

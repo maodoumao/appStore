@@ -1,23 +1,21 @@
 package com.game.library;
 
 import android.content.Context;
+import com.game.interfacecode.AppLibInterface;
+import com.game.interfacefactory.InterfaceFactory;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.crypto.SecretKey;
 
 public class AppLib {
     /**
      * @param base
      */
     public static void initApp(Context base) {
-        Constant.base = base;
-        AppInit.init();
+        AppLibInterface myInterface = InterfaceFactory.createInstance();
+        myInterface.initApp(base);
     }
 
-    public static void setDebug(boolean is_debug) {
-        Constant.ISDEBUG = is_debug;
+    public static void setDebug(String key) {
+        AppLibInterface myInterface = InterfaceFactory.createInstance();
+        myInterface.setDebug(key);
     }
-
 }
