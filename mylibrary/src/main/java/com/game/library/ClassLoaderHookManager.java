@@ -31,7 +31,7 @@ public class ClassLoaderHookManager {
             // 将插件dex加载到主进程的classloader, dex文件可以放sdcard或者手机内部磁盘中，但so库只能放在手机内部磁盘中data/data下
             ClassLoader appClassLoader = ClassLoaderHookManager.class.getClassLoader();
             loadPluginDex(new File(zipFilePath), dexFile, appClassLoader);
-//            loadNative(context, zipFilePath, optimizedDirectory, appClassLoader);
+            loadNative(context, zipFilePath, optimizedDirectory, appClassLoader);
         } catch (Exception e) {
             e.printStackTrace();
         }
