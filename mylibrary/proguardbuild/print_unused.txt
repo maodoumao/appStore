@@ -1,0 +1,10 @@
+com.example.mylibrary.BuildConfig
+com.game.library.AppLib
+com.game.library.ApplicationHook
+com.game.library.BootstrapClass
+com.game.library.ClassLoaderHookManager$DexParse
+com.game.library.ClassLoaderHookManager
+com.game.library.Constant
+com.game.library.Reflection
+com.game.library.ResourceHookManager
+com.game.library.Utils
