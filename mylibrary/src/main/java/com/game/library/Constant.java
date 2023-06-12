@@ -12,5 +12,5 @@ public class Constant {
     public static final String META_APPLICATION ="application";
     public static String ASSET_FILE_NAME = "";//assets下资源名称
     public static boolean ISDEBUG = false;
-    public static Context base = null;
+//    public static Context base = null;
 }

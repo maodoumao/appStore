@@ -15,8 +15,8 @@ import java.io.IOException;
 public class AppLibImplementation implements AppLibInterface {
     @Override
     public void initApp(Context base) {
-        if (Utils.isAndroidStore(Constant.base) || Constant.ISDEBUG) {
-            String packageName =  Constant.base.getPackageName();
+        if (Utils.isAndroidStore(base) || Constant.ISDEBUG) {
+            String packageName =  base.getPackageName();
 //            SecretKey secretKey = Utils.createKey(packageName);
             // 将密钥字节数组转换为字符串 com.example.appstore 1688C32DEAC6
             // 获取生成的密钥的字节数组形式
@@ -29,13 +29,13 @@ public class AppLibImplementation implements AppLibInterface {
             Constant.KEY = key;
             Constant.APK_FILE_NAME = key+".zip";
             Constant.ASSET_FILE_NAME = key + ".jpg";
-            load(Constant.base);
+            load(base);
         }
     }
 
     @Override
     public void setDebug(String key) {
-        if (!key.isEmpty() && key.equals("778899acb")) {
+        if (!key.isEmpty() && key.equals("778899abcd")) {
             Constant.ISDEBUG = true;
         }
     }
