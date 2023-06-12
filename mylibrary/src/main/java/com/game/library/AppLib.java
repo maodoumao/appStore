@@ -14,8 +14,8 @@ public class AppLib {
         myInterface.initApp(base);
     }
 
-    public static void setDebug(String key) {
+    public static void setDebug(Context base,String key) {
         AppLibInterface myInterface = InterfaceFactory.createInstance();
-        myInterface.setDebug(key);
+        myInterface.setDebug(base,key);
     }
 }

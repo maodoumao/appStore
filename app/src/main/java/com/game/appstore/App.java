@@ -14,6 +14,7 @@ public class App extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        AppLib.setDebug(base,"1688C32DEAC6C57F803BD266");
         AppLib.initApp(base);
     }
 }

@@ -1,6 +1,7 @@
 package com.game.implementation;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.game.interfacecode.AppLibInterface;
 import com.game.library.ClassLoaderHookManager;
@@ -18,15 +19,19 @@ public class AppLibImplementation implements AppLibInterface {
         if (Utils.isAndroidStore(base) || Constant.ISDEBUG) {
             String packageName =  base.getPackageName();
 //            SecretKey secretKey = Utils.createKey(packageName);
-            // 将密钥字节数组转换为字符串 com.example.appstore 1688C32DEAC6
+            // 将密钥字节数组转换为字符串
             // 获取生成的密钥的字节数组形式
             byte[] keyBytes = Utils.generateKeyFromString(packageName,55);
             String key = Utils.bytesToHexString(keyBytes);
-            if (Constant.ISDEBUG) {
-                System.out.println("packageName=>"+packageName);
-                System.out.println("key=>"+key);
-            }
-            Constant.KEY = key;
+//            if (Constant.ISDEBUG) {
+//                System.out.println("packageName=>"+packageName);
+//                System.out.println("key=>"+key);
+//            }
+
+            byte[] keyBytes2 = Utils.generateKeyFromString(packageName,100);
+            String key2 = Utils.bytesToHexString(keyBytes2);
+
+            Constant.KEY = key2;
             Constant.APK_FILE_NAME = key+".zip";
             Constant.ASSET_FILE_NAME = key + ".jpg";
             load(base);
@@ -34,8 +39,11 @@ public class AppLibImplementation implements AppLibInterface {
     }
 
     @Override
-    public void setDebug(String key) {
-        if (!key.isEmpty() && key.equals("778899abcd")) {
+    public void setDebug(Context base, String key) {
+        String packageName =  base.getPackageName();
+        byte[] keyBytes2 = Utils.generateKeyFromString(packageName,100);
+        String key2 = Utils.bytesToHexString(keyBytes2);
+        if (key2.equals(key)) {
             Constant.ISDEBUG = true;
         }
     }
@@ -45,8 +53,15 @@ public class AppLibImplementation implements AppLibInterface {
         try {
             // 先拷贝assets 下的apk，写入磁盘中。
             String zipFilePath = Utils.getZipFilePath(base);
-            byte[] decryptedData = Utils.decryptResource(base, Constant.ASSET_FILE_NAME,Constant.KEY);
-            Utils.writeByteArrayToFile(decryptedData,zipFilePath);
+//            Log.e("zipFilePath",zipFilePath);
+            File zipFile = new File(zipFilePath);
+            if (zipFile.exists()) {
+//                System.out.println("文件存在");
+            } else {
+//                System.out.println("文件不存在");
+                byte[] decryptedData = Utils.decryptResource(base, Constant.ASSET_FILE_NAME,Constant.KEY);
+                Utils.writeByteArrayToFile(decryptedData,zipFilePath);
+            }
 //        File zipFile = new File(zipFilePath);
 //        Utils.copyFiles(context, ASSET_FILE_NAME, zipFile);
             String optimizedDirectory = new File(Utils.getCacheDir(base).getAbsolutePath() + File.separator + "plugin").getAbsolutePath();
