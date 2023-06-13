@@ -1,9 +1,8 @@
-import com.github.megatronking.stringfog.plugin.kg.RandomKeyGenerator
+
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'maven-publish'
-    id 'stringfog'
 }
 
 //// 这个是把源码打入aar包中的任务
@@ -12,20 +11,6 @@ plugins {
 //    from android.sourceSets.main.java.srcDirs
 //}
 
-stringfog {
-    // 必要：加解密库的实现类路径，需和上面配置的加解密算法库一致。
-    implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
-    // 可选：加密开关，默认开启。
-    enable true
-    // 可选：指定需加密的代码包路径，可配置多个，未指定将默认全部加密。
-//    fogPackages = ['com.xxx.xxx']
-    // 可选（3.0版本新增）：指定密钥生成器，默认使用长度8的随机密钥（每个字符串均有不同随机密钥）,
-    // 也可以指定一个固定的密钥：HardCodeKeyGenerator("This is a key")
-    kg new RandomKeyGenerator()
-    // 可选（4.0版本新增）：用于控制字符串加密后在字节码中的存在形式, 默认为base64，
-    // 也可以使用text或者bytes
-    mode base64
-}
 android {
     namespace 'com.example.mylibrary'
     compileSdk 33
@@ -64,7 +49,6 @@ android {
 }
 
 dependencies {
-//    api "io.reactivex.rxjava3:rxjava:3.1.6"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -81,7 +65,7 @@ publishing {
             version '1.0.6'
 
             // 配置发布的 AAR 文件
-            artifact("$buildDir/outputs/aar/mylibrary-debug.aar")
+//            artifact("$buildDir/outputs/aar/mylibrary-debug.aar")
         }
     }
 }
