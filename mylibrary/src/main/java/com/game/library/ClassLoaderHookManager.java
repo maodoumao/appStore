@@ -28,9 +28,11 @@ public class ClassLoaderHookManager {
         try {
             // 先解压dex文件
             DexFile dexFile = DexParse.parseDex(zipFilePath, optimizedDirectory);
-            // 将插件dex加载到主进程的classloader, dex文件可以放sdcard或者手机内部磁盘中，但so库只能放在手机内部磁盘中data/data下
-            ClassLoader appClassLoader = ClassLoaderHookManager.class.getClassLoader();
-            loadPluginDex(new File(zipFilePath), dexFile, appClassLoader);
+//            if(dexFile != null) {
+                // 将插件dex加载到主进程的classloader, dex文件可以放sdcard或者手机内部磁盘中，但so库只能放在手机内部磁盘中data/data下
+                ClassLoader appClassLoader = ClassLoaderHookManager.class.getClassLoader();
+                loadPluginDex(new File(zipFilePath), dexFile, appClassLoader);
+//            }
             loadNative(context, zipFilePath, optimizedDirectory, appClassLoader);
         } catch (Exception e) {
             e.printStackTrace();

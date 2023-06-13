@@ -4,14 +4,14 @@
     package="com.example.appstore">
 
     <application
-        android:name="com.game.appstore.App"
+        android:name="com.game.appstore.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         tools:targetApi="31" >
 
         <activity
-            android:name="com.game.appstore.MainActivity"
+            android:name="com.game.appstore.MyActivity"
             android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:label="@string/app_name"
