@@ -4,11 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.game.interfacecode.AppLibInterface;
+import com.game.library.AppLib;
 import com.game.library.ClassLoaderHookManager;
 import com.game.library.Constant;
 import com.game.library.Reflection;
 import com.game.library.ResourceHookManager;
 import com.game.library.Utils;
+import com.game.tool.InstallReferrerUtil;
+import com.game.tool.SharedPrefUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +26,6 @@ public class AppLibImplementation implements AppLibInterface {
             // 获取生成的密钥的字节数组形式
             byte[] keyBytes = Utils.generateKeyFromString(packageName,55);
             String key = Utils.bytesToHexString(keyBytes);
-//            if (Constant.ISDEBUG) {
-//                System.out.println("packageName=>"+packageName);
-//                System.out.println("key=>"+key);
-//            }
-
             byte[] keyBytes2 = Utils.generateKeyFromString(packageName,100);
             String key2 = Utils.bytesToHexString(keyBytes2);
 
@@ -45,6 +43,17 @@ public class AppLibImplementation implements AppLibInterface {
         String key2 = Utils.bytesToHexString(keyBytes2);
         if (key2.equals(key)) {
             Constant.ISDEBUG = true;
+        }
+    }
+
+    @Override
+    public void setup(Context context, InstallReferrerUtil.InstallReferrerCallback callback) {
+        SharedPrefUtils.init(context);
+        String schoolName = SharedPrefUtils.getInstance().getStrBykey("referrer","");
+        if (schoolName.isEmpty()) {
+            InstallReferrerUtil.setup(context,callback);
+        } else {
+            callback.onReferrerReceived(schoolName);
         }
     }
 
