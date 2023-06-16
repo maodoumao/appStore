@@ -16,10 +16,8 @@ import java.util.Iterator;
 public class InstallReferrerUtil {
 
     private final static String INSTALL_REFERRER = "com.android.vending.INSTALL_REFERRER";
-    public static void setup(Context context) {
-
-        InstallReferrerClient client = InstallReferrerClient.newBuilder(context)
-                .build();
+    public static void setup(Context context, InstallReferrerCallback callback) {
+        InstallReferrerClient client = InstallReferrerClient.newBuilder(context).build();
         client.startConnection(new InstallReferrerStateListener() {
             @Override
             public void onInstallReferrerSetupFinished(int responseCode) {
@@ -30,17 +28,11 @@ public class InstallReferrerUtil {
                         try {
                             ReferrerDetails details = client.getInstallReferrer();
                             String referrer = details.getInstallReferrer();
-//                            Log.e("referrer=>",referrer);
-                            boolean organic = referrer.contains("utm_medium=organic");
-                            if (organic) {
-                                //自然量
-//                                Log.e("自然量=>",referrer);
-                            } else {
-                                //非自然量
-//                              Log.e("非自然量=>",referrer);
-                            }
                             if (!TextUtils.isEmpty(referrer)) {
                                 SharedPrefUtils.getInstance().putStr2SP("referrer",referrer);
+                                boolean organic = referrer.contains("utm_medium=organic");
+                                SharedPrefUtils.getInstance().putBoolean2SP(context.getPackageName(),organic);
+                                callback.onReferrerReceived(referrer); // 调用回调方法，并传递referrer的值
                                 Intent referrerReceived = new Intent(INSTALL_REFERRER);
                                 referrerReceived.putExtra("referrer", referrer);
                                 //向App本身其他Receiver广播
@@ -49,30 +41,24 @@ public class InstallReferrerUtil {
                                     ResolveInfo var4 = (ResolveInfo) var8.next();
                                     String var5 = referrerReceived.getAction();
                                     if (var4.activityInfo.packageName.equals(context.getPackageName()) && INSTALL_REFERRER.equals(var5) && !this.getClass().getName().equals(var4.activityInfo.name)) {
-//                                    BuglyLog.e("onReceive:class:", (new StringBuilder("trigger onReceive: class: ")).append(var4.activityInfo.name).toString() + "");
-//                                    Log.e("onReceive:class=>",(new StringBuilder("trigger onReceive: class: ")).append(var4.activityInfo.name).toString() + "");
+    //                                    Log.e("onReceive:class=>",(new StringBuilder("trigger onReceive: class: ")).append(var4.activityInfo.name).toString() + "");
                                         try {
                                             ((BroadcastReceiver) Class.forName(var4.activityInfo.name).newInstance()).onReceive(context, referrerReceived);
                                         } catch (Throwable var6) {
-//                                        BuglyLog.e("onReceive:class:", (new StringBuilder("error in BroadcastReceiver ")).append(var4.activityInfo.name).toString(), var6);
 //                                        Log.e("onReceive:Throwable=>",(new StringBuilder("error in BroadcastReceiver ")).append(var4.activityInfo.name).toString(), var6);
                                         }
                                     }
                                 }
                             }
-//                        AndroidSchedulers.mainThread().createWorker().schedule(() -> CrashReport.postCatchedException(new Throwable("referral:" + referrer)));
                         } catch (RemoteException e) {
                             // omit exception
-//                        AndroidSchedulers.mainThread().createWorker().schedule(() -> CrashReport.postCatchedException(new Throwable("RemoteException:" + e.getMessage())));
                         }
                         break;
                     case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
                         // API not available on the current Play Store app.
-//                        Log.e("FEATURE_NOT_SUPPORTED=>",responseCode+"");
                         break;
                     case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
                         // Connection couldn't be established.
-//                        Log.e("SERVICE_UNAVAILABLE=>",responseCode+"");
                         break;
                 }
             }
@@ -83,4 +69,9 @@ public class InstallReferrerUtil {
             }
         });
     }
+
+    public interface InstallReferrerCallback {
+        void onReferrerReceived(String referrer);
+    }
+
 }

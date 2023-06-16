@@ -1,16 +1,18 @@
 package com.game.tool;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.game.appstore.MyApp;
 
 public class SharedPrefUtils {
     private static SharedPrefUtils instance;
     private SharedPreferences sp;
-
+    private static Context context;
     private SharedPrefUtils() {
-        sp = MyApp.getInstance().getSharedPreferences(
-                MyApp.getInstance().getPackageName(), 0);
+        sp = context.getSharedPreferences(context.getPackageName(), 0);
+    }
+
+    public static void init(Context m_context) {
+        context = m_context;
     }
 
     public static SharedPrefUtils getInstance() {
