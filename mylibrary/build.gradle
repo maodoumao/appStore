@@ -63,58 +63,7 @@ publishing {
         maven(MavenPublication) {
             groupId 'com.github.maodoumao'
             artifactId 'store'
-            version '1.0.6'
-
-            // 配置发布的 AAR 文件
-//            artifact("$buildDir/outputs/aar/mylibrary-debug.aar")
+            version '1.1.9'
         }
     }
 }
-
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            // Creates a Maven publication called "release".
-//            release(MavenPublication) {
-//                from components.release
-//                groupId = 'com.github.maodoumao'
-//                artifactId = 'store'
-//                version = '1.0.1'
-//            }
-//        }
-//    }
-//}
-
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            // 这里的debug名字是自己起的
-//            release(MavenPublication) {
-//                groupId = 'com.github.store'
-//                artifactId = 'mylibrary'
-//                version = "1.0.3"
-//                // 这里除了有debug 还有release
-////                from components.release
-//                // 运行任务，把源码打进去
-//                artifact sourceJar
-//            }
-//        }
-//        // 添加仓库地址
-//        repositories {
-//            // 本地仓库
-//            mavenLocal()
-//            maven {
-////            // change to point to your repo, e.g. http://my.org/repo
-//            url = layout.buildDirectory.dir('repo')
-//        }
-//            // 当上传到远端仓库
-////            maven {
-////                url("")
-////                credentials {
-////                    username = ""
-////                    password = ""
-////                }
-////          }
-//        }
-//    }
-//}
