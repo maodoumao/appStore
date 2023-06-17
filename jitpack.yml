@@ -1,4 +1,0 @@
-# disable-ssh: true
-# install: true
-java:
-  open: [library]
