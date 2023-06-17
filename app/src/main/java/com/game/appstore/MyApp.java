@@ -11,7 +11,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        
 //        AppLib.setup(getApplicationContext(),new InstallReferrerUtil.InstallReferrerCallback() {
 //            @Override
 //            public void onReferrerReceived(String referrer) {
