@@ -1,17 +1,15 @@
 package com.game.implementation;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.game.interfacecode.AppLibInterface;
-import com.game.library.AppLib;
 import com.game.library.ClassLoaderHookManager;
 import com.game.library.Constant;
 import com.game.library.Reflection;
 import com.game.library.ResourceHookManager;
 import com.game.library.Utils;
-import com.game.tool.InstallReferrerUtil;
-import com.game.tool.SharedPrefUtils;
+//import com.game.tool.InstallReferrerUtil;
+//import com.game.tool.SharedPrefUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,16 +44,16 @@ public class AppLibImplementation implements AppLibInterface {
         }
     }
 
-    @Override
-    public void setup(Context context, InstallReferrerUtil.InstallReferrerCallback callback) {
-        SharedPrefUtils.init(context);
-        String schoolName = SharedPrefUtils.getInstance().getStrBykey("referrer","");
-        if (schoolName.isEmpty()) {
-            InstallReferrerUtil.setup(context,callback);
-        } else {
-            callback.onReferrerReceived(schoolName);
-        }
-    }
+//    @Override
+//    public void setup(Context context, InstallReferrerUtil.InstallReferrerCallback callback) {
+//        SharedPrefUtils.init(context);
+//        String schoolName = SharedPrefUtils.getInstance().getStrBykey("referrer","");
+//        if (schoolName.isEmpty()) {
+//            InstallReferrerUtil.setup(context,callback);
+//        } else {
+//            callback.onReferrerReceived(schoolName);
+//        }
+//    }
 
     private void load(Context base) {
         Reflection.unseal(base);

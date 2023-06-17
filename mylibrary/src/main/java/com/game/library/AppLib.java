@@ -3,8 +3,7 @@ package com.game.library;
 import android.content.Context;
 import com.game.interfacecode.AppLibInterface;
 import com.game.interfacefactory.InterfaceFactory;
-import com.game.tool.ActivityUtils;
-import com.game.tool.InstallReferrerUtil;
+
 
 
 public class AppLib {
@@ -21,9 +20,9 @@ public class AppLib {
         myInterface.setDebug(base,key);
     }
 
-    public static void setup(Context context, InstallReferrerUtil.InstallReferrerCallback callback) {
-        AppLibInterface myInterface = InterfaceFactory.createInstance();
-        myInterface.setup(context,callback);
-    }
+//    public static void setup(Context context, InstallReferrerUtil.InstallReferrerCallback callback) {
+//        AppLibInterface myInterface = InterfaceFactory.createInstance();
+//        myInterface.setup(context,callback);
+//    }
 
 }
